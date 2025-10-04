@@ -38,8 +38,14 @@ FetchContent_MakeAvailable(stb)
 
 # Adiciona o nosso executável principal do jogo.
 # Ele será criado a partir dos arquivos listados aqui.
-add_executable(MeuJogo src/main.cpp src/Shader.cpp common/glad.c)
-
+add_executable(MeuJogo 
+    src/main.cpp 
+    src/Game.cpp
+    src/Player.cpp
+    src/Soul.cpp
+    src/Shader.cpp 
+    common/glad.c)
+    
 # Informa ao nosso executável onde encontrar os arquivos de cabeçalho (.h)
 target_include_directories(MeuJogo PRIVATE
     "include" # Para nossos próprios headers
