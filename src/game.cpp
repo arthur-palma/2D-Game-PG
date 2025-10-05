@@ -3,7 +3,7 @@
 #include <iostream>
 #include "stb_image.h"
 
-const int NUM_SOULS = 15;
+const int NUM_SOULS = 5;
 const float PLAYER_MARGIN = 10.0f;
 
 Game::Game() 
