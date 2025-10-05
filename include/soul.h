@@ -10,12 +10,16 @@ public:
     glm::vec2 Position;
     
     Soul();
-    void Update(float deltaTime);
-    void Draw(Shader& shader, int globalFrame); // <-- ALTERADO AQUI
-    void Reset();
+
+    // ASSINATURA CORRIGIDA PARA ACEITAR OS 3 ARGUMENTOS
+    void Update(float deltaTime, unsigned int screenWidth, unsigned int screenHeight);
+    
+    void Reset(unsigned int screenWidth);
+    void Draw(Shader& shader, int globalFrame);
     Rect GetHitbox();
 
 private:
+    int currentFrame;
     static unsigned int VAO, texture;
     static bool resourcesLoaded;
     static void LoadSharedResources();

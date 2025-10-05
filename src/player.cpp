@@ -5,21 +5,20 @@
 #include <iostream>
 
 // Constantes do Jogador
-const float PLAYER_SPEED = 225.0f;
+const float PLAYER_SPEED = 300.0f;
 const float PLAYER_BASE_SIZE = 48.0f;
-const float PLAYER_SCALE = 2.0f;
+const float PLAYER_SCALE = 3.0f;
 
 Player::Player(glm::vec2 pos) 
     : Position(pos), State(STATE_IDLE), facingRight(true), currentFrame(0), attackTimer(0.0f) {
     
-    // Configurar geometria
-    float playerSheetWidth = 384.0f;
-    float playerFrameWidthTex = PLAYER_BASE_SIZE / playerSheetWidth;
+    // Configurar geometria (NÃO PRECISAMOS MAIS DE playerSheetWidth e playerFrameWidthTex AQUI)
     float playerVertices[] = {
-         PLAYER_BASE_SIZE, 0.0f, 0.0f, playerFrameWidthTex, 0.0f,
-         PLAYER_BASE_SIZE, -PLAYER_BASE_SIZE, 0.0f, playerFrameWidthTex, 1.0f,
-         0.0f, -PLAYER_BASE_SIZE, 0.0f, 0.0f, 1.0f,
-         0.0f, 0.0f, 0.0f, 0.0f, 0.0f
+        // Posições        // Coordenadas de Textura (agora de 0 a 1)
+         PLAYER_BASE_SIZE,    0.0f, 0.0f,  1.0f, 0.0f, // Canto Superior Direito
+         PLAYER_BASE_SIZE, -PLAYER_BASE_SIZE, 0.0f,  1.0f, 1.0f, // Canto Inferior Direito
+         0.0f, -PLAYER_BASE_SIZE, 0.0f,  0.0f, 1.0f, // Canto Inferior Esquerdo
+         0.0f,    0.0f, 0.0f,  0.0f, 0.0f  // Canto Superior Esquerdo
     };
     unsigned int playerIndices[] = { 0, 1, 3, 1, 2, 3 };
     unsigned int VBO, EBO;
@@ -61,7 +60,7 @@ Player::Player(glm::vec2 pos)
     stbi_image_free(data);
 }
 
-void Player::ProcessInput(GLFWwindow* window, float deltaTime) {
+void Player::ProcessInput(GLFWwindow* window, float deltaTime, unsigned int screenWidth) {
     bool isMoving = false;
     if (this->State != STATE_ATTACKING) {
         if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
@@ -78,7 +77,7 @@ void Player::ProcessInput(GLFWwindow* window, float deltaTime) {
     }
     float finalPlayerSize = PLAYER_BASE_SIZE * PLAYER_SCALE;
     if (this->Position.x < 0.0f) this->Position.x = 0.0f;
-    if (this->Position.x > 800.0f - finalPlayerSize) this->Position.x = 800.0f - finalPlayerSize;
+    if (this->Position.x > screenWidth - finalPlayerSize) this->Position.x = screenWidth - finalPlayerSize;
 }
 
 void Player::Update(float deltaTime) {
@@ -86,7 +85,7 @@ void Player::Update(float deltaTime) {
     float currentTime = (float)glfwGetTime();
 
     if (this->State == STATE_ATTACKING) {
-        const float ATTACK_DURATION = 0.4f;
+        const float ATTACK_DURATION = 0.3f;
         const int PLAYER_ATTACK_NFRAMES = 10;
         attackTimer += deltaTime;
         this->currentFrame = static_cast<int>((attackTimer / ATTACK_DURATION) * PLAYER_ATTACK_NFRAMES);

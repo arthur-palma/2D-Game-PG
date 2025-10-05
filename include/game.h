@@ -1,16 +1,18 @@
+// include/Game.h (VERSÃO CORRIGIDA)
+
 #ifndef GAME_H
 #define GAME_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 #include "Player.h"
 #include "Soul.h"
 #include "Shader.h"
-#include <vector>
 
 class Game {
 public:
-    Game(unsigned int width, unsigned int height);
+    Game(); // Construtor sem parâmetros
     ~Game();
     void Init();
     void Run();
@@ -24,6 +26,12 @@ private:
     int score;
     float deltaTime, lastFrame;
 
+    // DECLARAÇÕES QUE FALTAVAM
+    int soulGlobalFrame;
+    unsigned int backgroundVAO;
+    unsigned int backgroundTexture;
+
+    // Métodos privados
     void ProcessInput();
     void Update();
     void Render();

@@ -7,17 +7,21 @@ out vec2 TexCoord;
 uniform mat4 model;
 uniform mat4 projection;
 
-// Novos uniforms para controlar a animação
-uniform int nFrames; // Total de frames na spritesheet (no seu caso, 8)
-uniform int currentFrame; // Frame atual que queremos desenhar (de 0 a 7)
+uniform int nFrames;
+uniform int currentFrame;
 
 void main()
 {
    gl_Position = projection * model * vec4(aPos, 1.0);
 
-   // Calcula o deslocamento (offset) horizontal da textura
-   float texOffset = float(currentFrame) / float(nFrames);
+   // Calcula a largura de um único frame no espaço da textura (ex: 1.0 / 10.0 = 0.1)
+   float frameWidth = 1.0 / float(nFrames);
 
-   // Aplica o deslocamento apenas na coordenada X da textura
-   TexCoord = vec2(aTexCoord.x + texOffset, aTexCoord.y);
+   // Calcula o deslocamento para o frame atual (ex: frame 3 * 0.1 = 0.3)
+   float texOffset = float(currentFrame) * frameWidth;
+
+   // Aplica a escala e o deslocamento à coordenada de textura
+   // aTexCoord.x agora é 0 ou 1, representando o início ou fim do frame
+   TexCoord.x = (aTexCoord.x * frameWidth) + texOffset;
+   TexCoord.y = aTexCoord.y;
 }

@@ -18,7 +18,7 @@ public:
     PlayerState State;
     
     Player(glm::vec2 pos);
-    void ProcessInput(GLFWwindow* window, float deltaTime);
+    void ProcessInput(GLFWwindow* window, float deltaTime, unsigned int screenWidth);
     void Update(float deltaTime);
     void Draw(Shader& shader);
     void Attack();

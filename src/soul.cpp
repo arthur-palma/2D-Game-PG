@@ -1,51 +1,44 @@
 #include "Soul.h"
 #include <glad/glad.h>
-#include <GLFW/glfw3.h> // Para glfwGetTime
+#include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <random>
 #include "stb_image.h"
 #include <iostream>
 
-// Constantes da Alma
 const float SOUL_BASE_SIZE = 48.0f;
-const float SOUL_SCALE = 1.25f;
-const float SOUL_FALL_SPEED = 100.0f;
+const float SOUL_SCALE = 1.5f;
+const float SOUL_FALL_SPEED = 150.0f;
 const int SOUL_NFRAMES = 3;
 
-// Inicialização de membros estáticos (compartilhados entre todas as almas)
 unsigned int Soul::VAO = 0;
 unsigned int Soul::texture = 0;
 bool Soul::resourcesLoaded = false;
 
 Soul::Soul() {
-    // Apenas carrega os recursos uma vez, na criação da primeira alma
     if (!resourcesLoaded) {
         LoadSharedResources();
     }
-    this->Reset();
+    // O Reset inicial é chamado pelo Game::Init com a largura correta da tela
 }
 
-void Soul::Update(float deltaTime) {
-    // Lógica de Queda
+void Soul::Update(float deltaTime, unsigned int screenWidth, unsigned int screenHeight) {
     this->Position.y += SOUL_FALL_SPEED * deltaTime;
 
-    // Se saiu da tela, reseta
-    if (this->Position.y > 600) { // SCR_HEIGHT
-        Reset();
+    if (this->Position.y > screenHeight) {
+        this->Reset(screenWidth);
     }
 }
 
-void Soul::Reset() {
+void Soul::Reset(unsigned int screenWidth) {
     float finalSoulSize = SOUL_BASE_SIZE * SOUL_SCALE;
-
-    // Geradores estáticos para serem inicializados apenas uma vez
     static std::random_device rd;
     static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<> distribX(0, 800 - (int)finalSoulSize);
+    std::uniform_int_distribution<> distribX(0, screenWidth - (int)finalSoulSize);
     static std::uniform_int_distribution<> distribY(50, 400);
 
     this->Position.x = (float)distribX(gen);
-    this->Position.y = (float)-distribY(gen); // Começa um pouco acima da tela
+    this->Position.y = (float)-distribY(gen);
 }
 
 Rect Soul::GetHitbox() {
@@ -56,7 +49,7 @@ Rect Soul::GetHitbox() {
 void Soul::Draw(Shader& shader, int globalFrame) {
     shader.use();
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture); // Usa a textura estática
+    glBindTexture(GL_TEXTURE_2D, texture);
     shader.setInt("nFrames", SOUL_NFRAMES);
     shader.setInt("currentFrame", globalFrame);
 
@@ -65,18 +58,17 @@ void Soul::Draw(Shader& shader, int globalFrame) {
     model = glm::scale(model, glm::vec3(SOUL_SCALE, SOUL_SCALE, 1.0f));
     shader.setMat4("model", model);
     
-    glBindVertexArray(VAO); // Usa o VAO estático
+    glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0); // Desvincula para evitar bugs gráficos
+    glBindVertexArray(0);
 }
 
 void Soul::LoadSharedResources() {
-    // Geometria da Alma
-    float soulSheetWidth = 144.0f; // 3 frames * 48px
+    float soulSheetWidth = 144.0f;
     float soulFrameWidthTex = SOUL_BASE_SIZE / soulSheetWidth;
     float soulVertices[] = {
-        SOUL_BASE_SIZE,    0.0f, 0.0f,  soulFrameWidthTex, 0.0f,
-        SOUL_BASE_SIZE, -SOUL_BASE_SIZE, 0.0f,  soulFrameWidthTex, 1.0f,
+        SOUL_BASE_SIZE,    0.0f, 0.0f,  1.0f, 0.0f,
+        SOUL_BASE_SIZE, -SOUL_BASE_SIZE, 0.0f,  1.0f, 1.0f,
         0.0f, -SOUL_BASE_SIZE, 0.0f,  0.0f, 1.0f,
         0.0f,    0.0f, 0.0f,  0.0f, 0.0f
     };
@@ -96,7 +88,6 @@ void Soul::LoadSharedResources() {
     glEnableVertexAttribArray(1);
     glBindVertexArray(0);
 
-    // Textura da Alma
     stbi_set_flip_vertically_on_load(true);
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
