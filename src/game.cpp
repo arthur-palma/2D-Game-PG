@@ -3,11 +3,12 @@
 #include <iostream>
 #include "stb_image.h"
 
-const int NUM_SOULS = 5;
+const int NUM_SOULS = 3;
+const int MAX_MISSED_SOULS = 5;
 const float PLAYER_MARGIN = 10.0f;
 
 Game::Game() 
-    : Width(0), Height(0), score(0), window(nullptr), player(nullptr), shader(nullptr), 
+    : Width(0), Height(0), score(0), missedSouls(0), window(nullptr), player(nullptr), shader(nullptr), 
       deltaTime(0.0f), lastFrame(0.0f), soulGlobalFrame(0), backgroundVAO(0), backgroundTexture(0) {}
 
 Game::~Game() {
@@ -30,7 +31,6 @@ void Game::Init() {
     this->window = glfwCreateWindow(this->Width, this->Height, "Soul Catcher", NULL, NULL);
     
     
-    // LINHA CORRIGIDA
     glfwMakeContextCurrent(this->window);
 
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -54,7 +54,6 @@ void Game::Init() {
         this->souls.back().Reset(this->Width);
     }
 
-    // --- FUNDO DINÂMICO ---
     stbi_set_flip_vertically_on_load(true);
     int bgWidth, bgHeight, nrChannels;
     unsigned char* data = stbi_load("assets/background.png", &bgWidth, &bgHeight, &nrChannels, 0);
@@ -138,9 +137,21 @@ void Game::Update() {
         lastSoulAnimationTime = (float)glfwGetTime();
     }
 
+    float difficultyFactor = 1.0f + ( (float)glfwGetTime() / 20.0f ) * 0.25f;
+
     this->player->Update(this->deltaTime);
+    
     for (auto& soul : this->souls) {
-        soul.Update(this->deltaTime, this->Width, this->Height);
+        soul.Update(this->deltaTime, this->Width, this->Height, difficultyFactor);
+        
+        if (soul.Position.y > this->Height) {
+            soul.Reset(this->Width);
+            this->missedSouls++;
+      
+            if (this->missedSouls >= MAX_MISSED_SOULS) {
+                glfwSetWindowShouldClose(this->window, true);
+            }
+        }
     }
     this->CheckCollisions();
 }
@@ -162,7 +173,6 @@ void Game::CheckCollisions() {
             this->player->Attack();
             soul.Reset(this->Width);
             this->score++;
-            std::cout << "Score: " << this->score << std::endl;
         }
     }
 }

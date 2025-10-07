@@ -11,8 +11,7 @@ public:
     
     Soul();
 
-    // ASSINATURA CORRIGIDA PARA ACEITAR OS 3 ARGUMENTOS
-    void Update(float deltaTime, unsigned int screenWidth, unsigned int screenHeight);
+    void Update(float deltaTime, unsigned int screenWidth, unsigned int screenHeight, float difficultyFactor);
     
     void Reset(unsigned int screenWidth);
     void Draw(Shader& shader, int globalFrame);

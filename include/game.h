@@ -25,11 +25,10 @@ private:
     Shader* shader;
     int score;
     float deltaTime, lastFrame;
-
-    // DECLARAÇÕES QUE FALTAVAM
     int soulGlobalFrame;
     unsigned int backgroundVAO;
     unsigned int backgroundTexture;
+    int missedSouls;
 
     // Métodos privados
     void ProcessInput();

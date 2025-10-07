@@ -19,15 +19,10 @@ Soul::Soul() {
     if (!resourcesLoaded) {
         LoadSharedResources();
     }
-    // O Reset inicial é chamado pelo Game::Init com a largura correta da tela
 }
 
-void Soul::Update(float deltaTime, unsigned int screenWidth, unsigned int screenHeight) {
-    this->Position.y += SOUL_FALL_SPEED * deltaTime;
-
-    if (this->Position.y > screenHeight) {
-        this->Reset(screenWidth);
-    }
+void Soul::Update(float deltaTime, unsigned int screenWidth, unsigned int screenHeight, float difficultyFactor) {
+    this->Position.y += SOUL_FALL_SPEED * difficultyFactor * deltaTime;
 }
 
 void Soul::Reset(unsigned int screenWidth) {
