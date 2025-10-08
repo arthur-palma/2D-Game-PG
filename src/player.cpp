@@ -4,7 +4,6 @@
 #include "stb_image.h"
 #include <iostream>
 
-// Constantes do Jogador
 const float PLAYER_SPEED = 300.0f;
 const float PLAYER_BASE_SIZE = 48.0f;
 const float PLAYER_SCALE = 3.0f;
@@ -12,9 +11,7 @@ const float PLAYER_SCALE = 3.0f;
 Player::Player(glm::vec2 pos) 
     : Position(pos), State(STATE_IDLE), facingRight(true), currentFrame(0), attackTimer(0.0f) {
     
-    // Configurar geometria (NÃO PRECISAMOS MAIS DE playerSheetWidth e playerFrameWidthTex AQUI)
     float playerVertices[] = {
-        // Posições        // Coordenadas de Textura (agora de 0 a 1)
          PLAYER_BASE_SIZE,    0.0f, 0.0f,  1.0f, 0.0f, // Canto Superior Direito
          PLAYER_BASE_SIZE, -PLAYER_BASE_SIZE, 0.0f,  1.0f, 1.0f, // Canto Inferior Direito
          0.0f, -PLAYER_BASE_SIZE, 0.0f,  0.0f, 1.0f, // Canto Inferior Esquerdo
@@ -37,7 +34,6 @@ Player::Player(glm::vec2 pos)
 
     stbi_set_flip_vertically_on_load(true); 
 
-    // Carregar texturas
     int width, height, nrChannels;
     unsigned char* data;
     

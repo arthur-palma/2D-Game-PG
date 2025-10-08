@@ -19,6 +19,7 @@ public:
 
 private:
     int currentFrame;
+    float speedMultiplier;
     static unsigned int VAO, texture;
     static bool resourcesLoaded;
     static void LoadSharedResources();

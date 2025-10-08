@@ -15,14 +15,14 @@ unsigned int Soul::VAO = 0;
 unsigned int Soul::texture = 0;
 bool Soul::resourcesLoaded = false;
 
-Soul::Soul() {
+Soul::Soul() : currentFrame(0), speedMultiplier(1.0f) {
     if (!resourcesLoaded) {
         LoadSharedResources();
     }
 }
 
 void Soul::Update(float deltaTime, unsigned int screenWidth, unsigned int screenHeight, float difficultyFactor) {
-    this->Position.y += SOUL_FALL_SPEED * difficultyFactor * deltaTime;
+    this->Position.y += SOUL_FALL_SPEED * this->speedMultiplier * difficultyFactor * deltaTime;
 }
 
 void Soul::Reset(unsigned int screenWidth) {
@@ -31,6 +31,9 @@ void Soul::Reset(unsigned int screenWidth) {
     static std::mt19937 gen(rd());
     std::uniform_int_distribution<> distribX(0, screenWidth - (int)finalSoulSize);
     static std::uniform_int_distribution<> distribY(50, 400);
+
+    std::uniform_real_distribution<float> distribSpeed(0.8f, 1.5f);
+    this->speedMultiplier = distribSpeed(gen);
 
     this->Position.x = (float)distribX(gen);
     this->Position.y = (float)-distribY(gen);
