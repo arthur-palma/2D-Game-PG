@@ -1,107 +1,104 @@
-# Processamento Gráfico 2025/2
+# 🕹️ Soul Catcher
 
-Este repositório contém exemplos e códigos utilizados na disciplina de **Processamento Gráfico: Fundamentos** do curso Ciência da Computação da Unisinos. Ele é estruturado para facilitar a organização dos arquivos e a compilação dos projetos utilizando CMake.
+![Screenshot do Jogo](gameplay.png)
 
-## 📂 Estrutura do Repositório
+## 🎮 Sobre o Projeto
 
-```plaintext
-📂 FCG2025-1/
-├── 📂 include/               # Cabeçalhos e bibliotecas de terceiros
-│   ├── 📂 glad/              # Cabeçalhos da GLAD (OpenGL Loader)
-│   │   ├── glad.h
-│   │   ├── 📂 KHR/           # Diretório com cabeçalhos da Khronos (GLAD)
-│   │       ├── khrplatform.h
-├── 📂 common/                # Código reutilizável entre os projetos
-│   ├── glad.c                # Implementação da GLAD
-├── 📂 src/                   # Código-fonte dos exemplos e exercícios
-│   ├── 📂 HelloTriangle/     # Exemplo básico de renderização com OpenGL
-│   │   └── main.cpp
-│   ├── 📂 HelloOrtho/        # Exemplo com projeção ortográfica
-│   │   └── main.cpp
-│   ├── 📂 HelloTransforms/   # Exemplo com múltiplas classes
-│   │   ├── main.cpp
-│   │   ├── Object.cpp
-│   │   ├── Object.h
-│   │   ├── Shader.cpp
-│   │   └── Shader.h
-│   ├── 📂 Lista1/
-│   │   ├── 📂 Ex5/
-│   │   │   └── main.cpp
-│   │   ├── 📂 Ex8/
-│   │   │   └── main.cpp
-│   └── ...                   # Outros exemplos e exercícios futuros
-├── 📂 build/                 # Diretório gerado pelo CMake (não incluído no repositório)
-├── 📄 CMakeLists.txt         # Configuração do CMake para compilar os projetos
-├── 📄 README.md              # Este arquivo, com a documentação do repositório
-├── 📄 GettingStarted.md      # Tutorial detalhado sobre como compilar usando o CMake
-├── 📄 ...
-```
+**Soul Catcher** é um protótipo de jogo 2D em estilo arcade desenvolvido como parte do **Trabalho do Grau A** para a disciplina de **Processamento Gráfico: Fundamentos**.
 
-Siga as instruções detalhadas em [GettingStarted.md](GettingStarted.md) para configurar e compilar o projeto.
-
-## ⚠️ **IMPORTANTE: Baixar a GLAD Manualmente**
-Para que o projeto funcione corretamente, é necessário **baixar a GLAD manualmente** utilizando o **GLAD Generator**.
-
-### 🔗 **Acesse o web service do GLAD**:
-👉 [GLAD Generator](https://glad.dav1d.de/)
-
-### ⚙️ **Configuração necessária:**
-- **API:** OpenGL  
-- **Version:** 3.3+ (ou superior compatível com sua máquina)  
-- **Profile:** Core  
-- **Language:** C/C++  
-
-### 📥 **Baixe e extraia os arquivos:**
-Após a geração, extraia os arquivos baixados e coloque-os nos diretórios correspondentes:
-- Copie **`glad.h`** para `include/glad/`
-- Copie **`khrplatform.h`** para `include/glad/KHR/`
-- Copie **`glad.c`** para `common/`
-
-🚨 **Sem esses arquivos, a compilação falhará!** É necessário colocar esses arquivos nos diretórios corretos, conforme a orientação acima.
+O objetivo do jogo é controlar um personagem na parte inferior da tela, movendo-o para a esquerda e para a direita para coletar as "almas" que caem do topo.  
+O jogador perde se deixar **5 almas** passarem. A dificuldade aumenta progressivamente com o tempo, tornando a queda das almas mais rápida.
 
 ---
 
-## 📚 Sugestão de Estrutura para seu próprio repositório
+## 🚀 Funcionalidades
 
-Recomendamos que você crie um repositório próprio, estruturado com subdiretórios dentro de `src`, para organizar suas atividades da disciplina:
+### 🎯 Gameplay
+- **Controle de Personagem:** Movimentação fluida para a esquerda e direita com as teclas de seta.  
+- **Coleta de Itens:** Almas são coletadas ao colidir com o personagem.    
+- **Condição de Derrota:** O jogo termina se o jogador deixar 5 almas passarem.  
+- **Dificuldade Progressiva:** A velocidade de queda das almas aumenta continuamente com o tempo de jogo.  
+- **Variação de Inimigos:** Cada alma possui uma velocidade de queda individual e aleatória, tornando o jogo mais imprevisível.  
+- **Feedback Visual:** O personagem executa uma animação de ataque ao coletar uma alma.  
 
+---
+
+## 🧠 Técnicas Utilizadas
+
+- **Renderização 2D:** Utiliza a API gráfica OpenGL 3.3+ (Core Profile) para renderização.  
+- **Estrutura Orientada a Objetos:** Código modularizado em classes (Game, Player, Soul, Shader).  
+- **Animação por Spritesheet:** Animações implementadas via spritesheets, com controle de frames no *Vertex Shader*.  
+- **Detecção de Colisão:** Algoritmo AABB (Axis-Aligned Bounding Box).  
+- **Gerenciamento de Dependências:** Bibliotecas externas (GLFW, GLM, stb_image) configuradas via CMake com *FetchContent*.  
+
+---
+
+## 🛠️ Como Compilar e Executar
+
+### 📋 Pré-requisitos
+- **CMake** (versão 3.11 ou superior)  
+- **Compilador C++** com suporte a **C++17** (GCC/MinGW, Clang ou MSVC)  
+- **Git** (para o *FetchContent*)  
+
+### ⚙️ Passos
+
+```bash
+# Clone o repositório
+git clone https://github.com/arthur-palma/2D-Game-PG.git
+cd 2D-Game-PG
+
+# Crie e acesse o diretório de build
+mkdir build
+cd build
+
+# Configure o projeto com CMake
+cmake -G "MinGW Makefiles" ..
+
+# Compile o projeto
+cmake --build .
+
+#Volte a pasta principal
+cd ..
+
+# Execute o jogo
+.\build\SoulCatcher.exe
 ```
-📁 PG2025-2/
-├── 📁 src/
-│ ├── 📁 Lista1/
-│ │ ├── 📁 Ex1/
-│ │ │ └── main.cpp
-│ │ ├── 📁 Ex2/
-│ │ │ └── main.cpp
-│ │ ├── 📁 Ex3/
-│ │ │ └── main.cpp
-│ │ └── README.md
-│ ├── 📁 Lista2/
-│ │ ├── 📁 Ex1/
-│ │ │ └── main.cpp
-│ │ ├── 📁 Ex2/
-│ │ │ └── main.cpp
-│ │ ├── 📁 Ex3/
-│ │ │ └── main.cpp
-│ │ └── README.md
-│ ├── 📁 TrabalhoGrauA/
-│ │ ├── main.cpp
-│ │ ├── Object.cpp
-│ │ ├── Object.h
-│ │ ├── Shader.cpp
-│ │ ├── Shader.h
-│ │ └── README.md
-│ └── ...
-├── 📁 include/ # Cabeçalhos comuns (se necessário)
-├── 📁 common/ # Arquivos comuns (como glad.c)
-├── 📄 CMakeLists.txt
-└── 📄 README.md
-```
-> Você pode alterar a estrutura dos diretórios, mas sempre que o fizer, adicione-os corretamente no CMakelists.txt.
-> Cada diretório dentro de `src/` pode conter um arquivo `README.md` com informações específicas sobre a atividade ou exercício implementado.
 
-Consulte os seguintes materiais para ajuda adicional:
-- [Tutorial de Entregas pelo Github](misc/TutorialEntregasGithub.pdf)
-- [Organizando seu repositório no Github](misc/OrganizandoRepositorioGithub.pdf)
-- [Exemplo de README.md de repositório](misc/Template_README_Repositorio.md)
-- [Exemplo de README.md para cada projeto](misc/Template_README_Projeto.md)
+---
+
+## ⌨️ Controles
+
+| Tecla | Ação |
+|:------|:------|
+| ← / → | Mover o personagem |
+| ESC | Fechar o jogo |
+
+---
+
+## 📂 Estrutura do Código
+
+| Classe | Responsabilidade |
+|:--------|:------------------|
+| **Game** | Gerencia a janela, loop principal e estado do jogo. |
+| **Player** | Lida com input, movimento, colisão e animações. |
+| **Soul** | Representa um inimigo; controla posição e velocidade de queda. |
+| **Shader** | Abstrai o carregamento e compilação de shaders GLSL. |
+
+---
+
+## 📚 Dependências
+
+- **GLFW:** Criação de janela e gerenciamento de input.  
+- **GLAD:** Carregamento de funções modernas do OpenGL.  
+- **GLM:** Operações matemáticas com vetores e matrizes.  
+- **stb_image:** Carregamento de texturas.  
+
+> Todas as dependências (exceto GLAD) são baixadas e configuradas automaticamente via **CMake**.
+
+---
+
+## 🧑‍💻 Autores
+
+Arthur Palma, Marcelo Calsing e Otto Schimtz
+Desenvolvido para a disciplina de **Processamento Gráfico: Fundamentos**  
+📍 **UNISINOS**
