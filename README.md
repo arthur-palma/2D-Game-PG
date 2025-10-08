@@ -1,6 +1,6 @@
 # 🕹️ Soul Catcher
 
-![Screenshot do Jogo](gameplay.png)
+![Screenshot do Jogo](gameplay.gif)
 
 ## 🎮 Sobre o Projeto
 
