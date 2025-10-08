@@ -40,7 +40,7 @@ Player::Player(glm::vec2 pos)
     glGenTextures(1, &this->textureWalk);
     glBindTexture(GL_TEXTURE_2D, this->textureWalk);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     data = stbi_load("assets/player.png", &width, &height, &nrChannels, 0);
     if (data) { glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data); glGenerateMipmap(GL_TEXTURE_2D); }
     else { std::cout << "Failed to load player texture" << std::endl; }
@@ -49,7 +49,7 @@ Player::Player(glm::vec2 pos)
     glGenTextures(1, &this->textureAttack);
     glBindTexture(GL_TEXTURE_2D, this->textureAttack);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     data = stbi_load("assets/player_attack.png", &width, &height, &nrChannels, 0);
     if (data) { glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data); glGenerateMipmap(GL_TEXTURE_2D); }
     else { std::cout << "Failed to load player attack texture" << std::endl; }

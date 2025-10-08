@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
-project(MeuJogo2D)
+project(SoulCatcher)
 
 # Define o padrão do C++
 set(CMAKE_CXX_STANDARD 17)
@@ -38,7 +38,7 @@ FetchContent_MakeAvailable(stb)
 
 # Adiciona o nosso executável principal do jogo.
 # Ele será criado a partir dos arquivos listados aqui.
-add_executable(MeuJogo 
+add_executable(SoulCatcher 
     src/main.cpp 
     src/Game.cpp
     src/Player.cpp
@@ -47,7 +47,7 @@ add_executable(MeuJogo
     common/glad.c)
     
 # Informa ao nosso executável onde encontrar os arquivos de cabeçalho (.h)
-target_include_directories(MeuJogo PRIVATE
+target_include_directories(SoulCatcher PRIVATE
     "include" # Para nossos próprios headers
     ${glm_SOURCE_DIR}
     ${stb_SOURCE_DIR}
@@ -65,4 +65,4 @@ else()
 endif()
 
 # Vincula (linka) as bibliotecas necessárias ao nosso executável
-target_link_libraries(MeuJogo PRIVATE glfw ${OPENGL_LIBS})
+target_link_libraries(SoulCatcher PRIVATE glfw ${OPENGL_LIBS})

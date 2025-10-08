@@ -1,8 +1,8 @@
 #include "Game.h"
 
 int main() {
-    Game ColetorDeAlmas;
-    ColetorDeAlmas.Init();
-    ColetorDeAlmas.Run();
+    Game SoulCatcher;
+    SoulCatcher.Init();
+    SoulCatcher.Run();
     return 0;
 }
